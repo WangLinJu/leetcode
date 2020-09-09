@@ -1,5 +1,9 @@
 package com.itheilv.leetcode.total.one;
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * @author WSQ
  * @since 2020-09-08
@@ -9,15 +13,71 @@ package com.itheilv.leetcode.total.one;
  */
 public class Solution01 {
 
-    public static int[] twoSum(int[] nums, int target) {
+    /**
+     * 暴力解法  时间：O(n^2)
+     * 空间 O（1）
+     *
+     * @param nums   the nums
+     * @param target the target
+     * @return the int[]
+     */
+    public static int[] twoSum01(int[] nums, int target) {
+        for (int i = 0; i < nums.length; i++) {
+            for (int j = i + 1; j < nums.length; j++) {
+                if (nums[i] + nums[j] == target && i != j) {
+                    return new int[]{i, j};
+                }
+            }
+        }
+        throw new IllegalArgumentException("No two sum solution");
+    }
 
-        return null;
+    /**
+     * 两遍哈希表      时间：O(n)
+     * 空间 O（n）
+     *
+     * @param nums   the nums
+     * @param target the target
+     * @return the int[]
+     */
+    public static int[] twoSum02(int[] nums, int target) {
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < nums.length; i++) {
+            map.put(nums[i], i);
+        }
+        for (int i = 0; i < nums.length; i++) {
+            int complete = target - nums[i];
+            if (map.containsKey(complete) && i != map.get(complete)) {
+                return new int[]{i, map.get(complete)};
+            }
+        }
+        throw new IllegalArgumentException("No two sum solution");
+    }
+
+    /**
+     * 一次哈希表      时间：O(n)
+     * 空间 O（n）
+     *
+     * @param nums   the nums
+     * @param target the target
+     * @return the int[]
+     */
+    public static int[] twoSum03(int[] nums, int target) {
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < nums.length; i++) {
+            int complete = target - nums[i];
+            if (map.containsKey(complete)) {
+                return new int[]{map.get(complete), i};
+            }
+            map.put(nums[i], i);
+        }
+        throw new IllegalArgumentException("No two sum solution");
     }
 
     public static void main(String[] args) {
-        int[] nums = new int[]{};
-        int target = 0;
-        int[] result = twoSum(nums, target);
-        System.out.println(result);
+        int[] nums = new int[]{3, 2, 4};
+        int target = 6;
+        int[] result = twoSum03(nums, target);
+        System.out.println(Arrays.toString(result));
     }
 }
